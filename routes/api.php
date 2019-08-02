@@ -13,7 +13,11 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-
+//Signup login controller
 Route::Post('/register','API\Auth\SignupController@register')->name('register-user');
 Route::Post('/login','API\Auth\SignupController@login')->name('login-user');
+//Product Curd
+Route::Post('/store','API\Product\ProductController@store')->name('store-product');
+
+
 
