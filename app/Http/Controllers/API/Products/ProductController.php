@@ -11,9 +11,11 @@ class ProductController extends Controller
 {
     public function index()
     {
-        $products = Products::all();
+        $products = Product::all();
         return response()->json($products);
     }
+
+
     public function store(Request $request)
     {
         $product = new Product();
@@ -32,15 +34,17 @@ class ProductController extends Controller
     
     public function update(Request $request)
     {
-        $product = Product::where('id',$request->get('id'));
+        $id =$request->get('id');
+// dd($id);
+        $product = Product::find($id)->first();
+        // dd($product);
         $product->name = $request->get('name');
         $product->price = $request->get('price');
         $product->image = $request->get('image');
         $product->supplier = $request->get('supplier');
-        
         if($product->save())
         {
-            return response()->json("Product updated successfully",$product);
+            return response()->json($product);
         }
         return response('Product Not updated due to some reason');
 
@@ -49,6 +53,10 @@ class ProductController extends Controller
     public function destroy(Request $request)
     {
         $product= Product::where('id',$request->get('id'));
-        $product->delete();
+        if($product->delete())
+        {
+            return response()->json("Deleted successfully");
+        }
+        return response()->json("error, record not deleted");
     }
 }
